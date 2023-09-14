@@ -33,8 +33,14 @@ function read(): Array<Todo> {
 
     return db.todos
 }
+
+function cleanDb() {
+    fs.writeFileSync(DB_FILE_PATH, '')
 }
 
 // SIMULATION
+cleanDb()
 create('Primeira TODO')
+create('Segunda TODO')
+create('Teeerceira TODO')
 console.log(read())
