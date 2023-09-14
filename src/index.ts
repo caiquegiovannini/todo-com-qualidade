@@ -3,8 +3,24 @@ const DB_FILE_PATH = './src/db'
 
 console.log('[CRUD iniciado]')
 
+interface Todo {
+    date: string
+    content: string
+    done: boolean
+}
+
 function create(content: string) {
-    fs.writeFileSync(DB_FILE_PATH, content)
+    const todo: Todo = {
+        date: new Date().toISOString(),
+        content,
+        done: false,
+    }
+    const todos: Array<Todo> = [
+        ...read(),
+        todo,
+    ]
+
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({ todos }, null, 2))
     return content
 }
 
