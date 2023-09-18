@@ -4,8 +4,9 @@ const DB_FILE_PATH = './src/db'
 
 console.log('[CRUD iniciado]')
 
+type UUID = string;
 interface Todo {
-    id: string
+    id: UUID
     date: string
     content: string
     done: boolean
@@ -27,7 +28,7 @@ function create(content: string): Todo {
     return todo
 }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+function update(id: UUID, partialTodo: Partial<Todo>): Todo {
     let updatedTodo;
     const todos = read()
     todos.forEach(todo => {
@@ -44,11 +45,11 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
     return updatedTodo
 }
 
-function updateContentById(id: string, content: string) {
+function updateContentById(id: UUID, content: string) {
     return update(id, { content })
 }
 
-function deleteById(id: string) {
+function deleteById(id: UUID) {
     const todos = read()
     const todosUpdated = todos.filter(todo => todo.id !== id)
 
