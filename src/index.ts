@@ -48,6 +48,13 @@ function updateContentById(id: string, content: string) {
     return update(id, { content })
 }
 
+function deleteById(id: string) {
+    const todos = read()
+    const todosUpdated = todos.filter(todo => todo.id !== id)
+
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({ todos: todosUpdated }, null, 2))
+}
+
 function read(): Array<Todo> {
     const dbString = fs.readFileSync(DB_FILE_PATH, 'utf-8')
     const db = JSON.parse(dbString || '{}')
@@ -65,7 +72,8 @@ function cleanDb() {
 // SIMULATION
 cleanDb()
 create('Primeira TODO')
-const segundaTodo = create('Segunda TODO')
-create('Teeerceira TODO')
-updateContentById(segundaTodo.id, 'Segunda TODO ATULAIZADA!')
+const secondTodo = create('Segunda TODO')
+updateContentById(secondTodo.id, 'Segunda TODO ATULAIZADA!')
+const thirdTodo = create('Teeerceira TODO')
+deleteById(thirdTodo.id)
 console.log(read())
