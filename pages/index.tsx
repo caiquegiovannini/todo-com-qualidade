@@ -1,4 +1,6 @@
-import { GlobalStyles } from "../src/theme/GlobalStyles";
+import { GlobalStyles } from "@ui/theme/GlobalStyles";
+
+const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 
 export default function Page() {
     return (
@@ -6,7 +8,7 @@ export default function Page() {
             <GlobalStyles />
             <header
                 style={{
-                    //  backgroundImage: `url('${bg}')`,
+                    backgroundImage: `url('${bg}')`,
                 }}
             >
                 <div className="typewriter">
