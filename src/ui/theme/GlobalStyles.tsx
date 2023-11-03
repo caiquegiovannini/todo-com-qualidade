@@ -4,92 +4,95 @@ const basePadding = "5%";
 const breakpoint = "850px";
 
 const pallete = {
-    indigo: {
-        x050: "#E0E8F9",
-        x100: "#BED0F7",
-        x200: "#98AEEB",
-        x300: "#7B93DB",
-        x400: "#647ACB",
-        x500: "#4C63B6",
-        x600: "#4055A8",
-        x700: "#35469C",
-        x800: "#2D3A8C",
-        x900: "#19216C",
-    },
-    devsoutinho: {
-        x050: "#FFE8D9",
-        x100: "#FFD0B5",
-        x200: "#FFB088",
-        x300: "#FF9466",
-        x400: "#F9703E",
-        x500: "#F35627",
-        x600: "#DE3A11",
-        x700: "#C52707",
-        x800: "#AD1D07",
-        x900: "#841003",
-    },
-    red: {
-        x050: "#FFE3E3",
-        x100: "#FFBDBD",
-        x200: "#FF9B9B",
-        x300: "#F86A6A",
-        x400: "#EF4E4E",
-        x500: "#E12D39",
-        x600: "#CF1124",
-        x700: "#AB091E",
-        x800: "#8A041A",
-        x900: "#610316",
-    },
-    coolGrey: {
-        x050: "#F5F7FA",
-        x100: "#E4E7EB",
-        x200: "#CBD2D9",
-        x300: "#9AA5B1",
-        x400: "#7B8794",
-        x500: "#616E7C",
-        x600: "#52606D",
-        x700: "#3E4C59",
-        x800: "#323F4B",
-        x900: "#1F2933",
-    },
+  indigo: {
+    x050: "#E0E8F9",
+    x100: "#BED0F7",
+    x200: "#98AEEB",
+    x300: "#7B93DB",
+    x400: "#647ACB",
+    x500: "#4C63B6",
+    x600: "#4055A8",
+    x700: "#35469C",
+    x800: "#2D3A8C",
+    x900: "#19216C",
+  },
+  devsoutinho: {
+    x050: "#FFE8D9",
+    x100: "#FFD0B5",
+    x200: "#FFB088",
+    x300: "#FF9466",
+    x400: "#F9703E",
+    x500: "#F35627",
+    x600: "#DE3A11",
+    x700: "#C52707",
+    x800: "#AD1D07",
+    x900: "#841003",
+  },
+  red: {
+    x050: "#FFE3E3",
+    x100: "#FFBDBD",
+    x200: "#FF9B9B",
+    x300: "#F86A6A",
+    x400: "#EF4E4E",
+    x500: "#E12D39",
+    x600: "#CF1124",
+    x700: "#AB091E",
+    x800: "#8A041A",
+    x900: "#610316",
+  },
+  coolGrey: {
+    x050: "#F5F7FA",
+    x100: "#E4E7EB",
+    x200: "#CBD2D9",
+    x300: "#9AA5B1",
+    x400: "#7B8794",
+    x500: "#616E7C",
+    x600: "#52606D",
+    x700: "#3E4C59",
+    x800: "#323F4B",
+    x900: "#1F2933",
+  },
 };
 type ThemeName = keyof typeof pallete;
 
 export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
-    const theme = {
-        primary: pallete[themeName || "indigo"],
-        negative: pallete.red,
-        neutral: pallete.coolGrey,
-    };
+  const theme = {
+    primary: pallete[themeName || "indigo"],
+    negative: pallete.red,
+    neutral: pallete.coolGrey,
+  };
 
-    return (
-        <style jsx global>
-            {`
+  return (
+    <style jsx global>
+      {`
         :root {
           --color-basic-light: #fff;
           --color-basic-dark: #000;
           --color-basic-transparent: transparent;
           ${Object.keys(theme.neutral)
-                    .map(
-                        (key) => `
-            --color-primary-${key}: ${theme.primary[key as keyof typeof theme.primary]
-                            };`
-                    )
-                    .join("")}
+            .map(
+              (key) => `
+            --color-primary-${key}: ${
+                theme.primary[key as keyof typeof theme.primary]
+              };`
+            )
+            .join("")}
           ${Object.keys(theme.neutral)
-                    .map(
-                        (key) => `
-            --color-neutral-${key}: ${theme.neutral[key as keyof typeof theme.neutral]
-                            };`
-                    )
-                    .join("")}
+            .map(
+              (key) => `
+            --color-neutral-${key}: ${
+                theme.neutral[key as keyof typeof theme.neutral]
+              };`
+            )
+            .join("")}
             ${Object.keys(theme.negative)
-                    .map(
-                        (key) => `
-              --color-negative-${key}: ${theme.negative[key as keyof typeof theme.negative]
-                            };`
-                    )
-                    .join("")}
+            .map(
+              (key) => `
+              --color-negative-${key}: ${
+                theme.negative[key as keyof typeof theme.negative]
+              };`
+            )
+            .join("")}
         }
         * {
           margin: 0;
@@ -387,6 +390,6 @@ export function GlobalStyles({ themeName }: { themeName?: ThemeName }) {
           }
         }
       `}
-        </style>
-    );
+    </style>
+  );
 }
