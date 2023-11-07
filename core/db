@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "id": "a9aac552-beaf-45a1-9be0-52a53b3e4eab",
+      "date": "2023-09-18T02:20:19.356Z",
+      "content": "Primeira TODO",
+      "done": false
+    },
+    {
+      "id": "ff997666-bbce-4c01-96e7-5c55cc439bd8",
+      "date": "2023-09-18T02:20:19.356Z",
+      "content": "Segunda TODO ATULAIZADA!",
+      "done": false
+    }
+  ]
+}
