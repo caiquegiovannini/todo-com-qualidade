@@ -1,8 +1,8 @@
 import fs from "fs";
 import { v4 as uuid } from "uuid";
-const DB_FILE_PATH = "./src/db";
+const DB_FILE_PATH = "./core/db";
 
-console.log("[CRUD iniciado]");
+// console.log("[CRUD iniciado]");
 
 type UUID = string;
 interface Todo {
@@ -56,7 +56,7 @@ function deleteById(id: UUID) {
   );
 }
 
-function read(): Array<Todo> {
+export function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8");
   const db = JSON.parse(dbString || "{}");
   if (!db.todos) {
@@ -72,10 +72,10 @@ function cleanDb() {
 }
 
 // SIMULATION
-cleanDb();
-create("Primeira TODO");
-const secondTodo = create("Segunda TODO");
-updateContentById(secondTodo.id, "Segunda TODO ATULAIZADA!");
-const thirdTodo = create("Teeerceira TODO");
-deleteById(thirdTodo.id);
-console.log(read());
+// cleanDb();
+// create("Primeira TODO");
+// const secondTodo = create("Segunda TODO");
+// updateContentById(secondTodo.id, "Segunda TODO ATULAIZADA!");
+// const thirdTodo = create("Teeerceira TODO");
+// deleteById(thirdTodo.id);
+// console.log(read());
