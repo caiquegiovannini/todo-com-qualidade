@@ -10,6 +10,7 @@ interface HomeTodo {
 }
 
 export default function Page() {
+  const [page, setPage] = useState(1);
   const [todos, setTodos] = useState<HomeTodo[]>([]);
 
   useEffect(() => {
@@ -78,10 +79,13 @@ export default function Page() {
               </td>
             </tr> */}
 
-            {/* <tr>
+            <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
-                <button data-type="load-more">
-                  Carregar mais{" "}
+                <button
+                  data-type="load-more"
+                  onClick={() => setPage((currentPage) => currentPage + 1)}
+                >
+                  Página {page}, Carregar mais{" "}
                   <span
                     style={{
                       display: "inline-block",
@@ -93,7 +97,7 @@ export default function Page() {
                   </span>
                 </button>
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
       </section>
