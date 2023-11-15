@@ -14,7 +14,7 @@ export default function Page() {
   const [todos, setTodos] = useState<HomeTodo[]>([]);
 
   useEffect(() => {
-    todoController.get().then((todos) => setTodos(todos));
+    todoController.get({ page }).then(({ todos }) => setTodos(todos));
   }, []);
 
   return (
