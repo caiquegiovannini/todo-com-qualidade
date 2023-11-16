@@ -17,7 +17,7 @@ export default function Page() {
 
   useEffect(() => {
     todoController.get({ page: currentPage }).then(({ todos, pages }) => {
-      setTodos(todos);
+      setTodos((currentTodos) => [...currentTodos, ...todos]);
       setTotalPages(pages);
     });
   }, [currentPage]);
