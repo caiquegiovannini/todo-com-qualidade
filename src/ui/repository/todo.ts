@@ -9,7 +9,7 @@ interface TodoRepositoryGetOutput {
   pages: number;
 }
 
-function get({
+async function get({
   page,
   limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
@@ -44,7 +44,7 @@ interface Todo {
 }
 
 function parseTodos(responseBody: unknown): { todos: Array<Todo> } {
-  console.log(responseBody); // entrou como desconhecido
+  // console.log(responseBody); // entrou como desconhecido
   if (
     responseBody !== null && // verificou existe algo
     typeof responseBody === "object" && // verificou se eh um objeto
