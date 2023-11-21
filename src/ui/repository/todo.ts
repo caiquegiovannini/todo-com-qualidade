@@ -13,22 +13,19 @@ async function get({
   page,
   limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
-  return fetch("api/todos").then(async (response) => {
-    const responseString = await response.text();
-    const todosFromServer = parseTodos(JSON.parse(responseString)).todos;
+  console.log(page, limit);
+  return fetch(`api/todos?page=${page}&limit=${limit}`).then(
+    async (response) => {
+      const responseString = await response.text();
+      const responseParsed = parseTodos(JSON.parse(responseString));
 
-    const ALL_TODOS = todosFromServer;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedTodos = ALL_TODOS.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(ALL_TODOS.length / limit);
-
-    return {
-      todos: paginatedTodos,
-      total: ALL_TODOS.length,
-      pages: totalPages,
-    };
-  });
+      return {
+        todos: responseParsed.todos,
+        total: responseParsed.total,
+        pages: responseParsed.pages,
+      };
+    }
+  );
 }
 
 export const todoRepository = {
@@ -43,15 +40,23 @@ interface Todo {
   done: boolean;
 }
 
-function parseTodos(responseBody: unknown): { todos: Array<Todo> } {
+function parseTodos(responseBody: unknown): {
+  total: number;
+  pages: number;
+  todos: Array<Todo>;
+} {
   // console.log(responseBody); // entrou como desconhecido
   if (
     responseBody !== null && // verificou existe algo
     typeof responseBody === "object" && // verificou se eh um objeto
     "todos" in responseBody && // verificou que tem 'todos' dentro desse objeto
+    "pages" in responseBody && // verificou que tem 'pages' dentro desse objeto
+    "total" in responseBody && // verificou que tem 'total' dentro desse objeto
     Array.isArray(responseBody.todos) // verificou que 'todos' eh um array
   ) {
     return {
+      total: Number(responseBody.total),
+      pages: Number(responseBody.pages),
       todos: responseBody.todos.map((todo) => {
         if (todo === null && typeof todo !== "object") {
           throw new Error("Invalid todo from API");
@@ -74,6 +79,8 @@ function parseTodos(responseBody: unknown): { todos: Array<Todo> } {
     };
   }
   return {
+    pages: 1,
+    total: 0,
     todos: [],
   };
 }
