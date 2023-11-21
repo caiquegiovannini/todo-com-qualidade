@@ -6,23 +6,28 @@ function get(req: NextApiRequest, res: NextApiResponse) {
   const page = Number(query.page);
   const limit = Number(query.page);
 
-  if (isNaN(page)) {
+  if (page && isNaN(page)) {
     res.status(400).json({
       error: {
         message: "'page' must be a number",
       },
     });
+    return;
   }
 
-  if (isNaN(limit)) {
+  if (limit && isNaN(limit)) {
     res.status(400).json({
       error: {
         message: "'limit' must be a number",
       },
     });
+    return;
   }
 
-  const output = todoRepository.get();
+  const output = todoRepository.get({
+    page,
+    limit,
+  });
 
   res.status(200).json({
     total: output.total,
