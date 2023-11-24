@@ -10,17 +10,28 @@ interface HomeTodo {
 }
 
 export default function Page() {
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [todos, setTodos] = useState<HomeTodo[]>([]);
   const hasNextPage = totalPages > currentPage;
+  const hasNoTodos = todos.length === 0 && !isLoading;
 
   useEffect(() => {
-    todoController.get({ page: currentPage }).then(({ todos, pages }) => {
-      setTodos((currentTodos) => [...currentTodos, ...todos]);
-      setTotalPages(pages);
-    });
-  }, [currentPage]);
+    setInitialLoadComplete(true);
+    if (!initialLoadComplete) {
+      todoController
+        .get({ page: currentPage })
+        .then(({ todos, pages }) => {
+          setTodos(todos);
+          setTotalPages(pages);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, []);
 
   return (
     <main>
@@ -72,26 +83,44 @@ export default function Page() {
               </tr>
             ))}
 
-            {/* <tr>
-              <td colSpan={4} align="center" style={{ textAlign: "center" }}>
-                Carregando...
-              </td>
-            </tr> */}
+            {isLoading && (
+              <tr>
+                <td colSpan={4} align="center" style={{ textAlign: "center" }}>
+                  Carregando...
+                </td>
+              </tr>
+            )}
 
-            {/* <tr>
-              <td colSpan={4} align="center">
-                Nenhum item encontrado
-              </td>
-            </tr> */}
+            {hasNoTodos && (
+              <tr>
+                <td colSpan={4} align="center">
+                  Nenhum item encontrado
+                </td>
+              </tr>
+            )}
 
             {hasNextPage && (
               <tr>
                 <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                   <button
                     data-type="load-more"
-                    onClick={() =>
-                      setCurrentPage((actualPage) => actualPage + 1)
-                    }
+                    onClick={() => {
+                      setIsLoading(true);
+                      const nextPage = currentPage + 1;
+                      setCurrentPage(nextPage);
+
+                      todoController
+                        .get({ page: nextPage })
+                        .then(({ todos, pages }) => {
+                          setTodos((oldTodos) => {
+                            return [...oldTodos, ...todos];
+                          });
+                          setTotalPages(pages);
+                        })
+                        .finally(() => {
+                          setIsLoading(false);
+                        });
+                    }}
                   >
                     Página {currentPage}, Carregar mais{" "}
                     <span
