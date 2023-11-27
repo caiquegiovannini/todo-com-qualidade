@@ -13,10 +13,15 @@ export default function Page() {
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [todos, setTodos] = useState<HomeTodo[]>([]);
+  const homeTodos = todoController.filterTodosByContent<HomeTodo>(
+    search,
+    todos
+  );
   const hasNextPage = totalPages > currentPage;
-  const hasNoTodos = todos.length === 0 && !isLoading;
+  const hasNoTodos = homeTodos.length === 0 && !isLoading;
 
   useEffect(() => {
     setInitialLoadComplete(true);
@@ -54,7 +59,12 @@ export default function Page() {
 
       <section>
         <form>
-          <input type="text" placeholder="Filtrar lista atual, ex: Dentista" />
+          <input
+            type="text"
+            placeholder="Filtrar lista atual, ex: Dentista"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
         </form>
 
         <table border={1}>
@@ -70,7 +80,7 @@ export default function Page() {
           </thead>
 
           <tbody>
-            {todos.map((todo) => (
+            {homeTodos.map((todo) => (
               <tr key={todo.id}>
                 <td>
                   <input type="checkbox" />
