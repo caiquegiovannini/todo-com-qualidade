@@ -9,10 +9,10 @@ function get(params: TodoControllerGetParams) {
   return todoRepository.get({ page: params.page, limit: params.limit });
 }
 
-function filterTodosByContent(
+function filterTodosByContent<Todo>(
   search: string,
-  todos: Array<{ content: string }>
-) {
+  todos: Array<Todo & { content: string }>
+): Todo[] {
   const searchNormalized = search.toLowerCase();
   const homeTodos = todos.filter((todo) => {
     const contentNormalized = todo.content.toLowerCase();
