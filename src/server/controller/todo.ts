@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 function get(req: NextApiRequest, res: NextApiResponse) {
   const query = req.query;
   const page = Number(query.page);
-  const limit = Number(query.page);
+  const limit = Number(query.limit);
 
   if (page && isNaN(page)) {
     res.status(400).json({
