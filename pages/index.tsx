@@ -22,7 +22,7 @@ export default function Page() {
     setInitialLoadComplete(true);
     if (!initialLoadComplete) {
       todoController
-        .get({ page: currentPage })
+        .get({ page: currentPage, limit: 2 })
         .then(({ todos, pages }) => {
           setTodos(todos);
           setTotalPages(pages);
@@ -110,7 +110,7 @@ export default function Page() {
                       setCurrentPage(nextPage);
 
                       todoController
-                        .get({ page: nextPage })
+                        .get({ page: nextPage, limit: 2 })
                         .then(({ todos, pages }) => {
                           setTodos((oldTodos) => {
                             return [...oldTodos, ...todos];
