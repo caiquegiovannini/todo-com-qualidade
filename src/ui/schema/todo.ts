@@ -1,6 +1,6 @@
 import { z as schema } from "zod";
 
-const TodoSchema = schema.object({
+export const TodoSchema = schema.object({
   id: schema.string().uuid(),
   content: schema.string(),
   date: schema.string().datetime(),
