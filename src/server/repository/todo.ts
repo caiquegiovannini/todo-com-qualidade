@@ -1,4 +1,4 @@
-import { read, create } from "@db-crud-todo";
+import { read, create, update } from "@db-crud-todo";
 
 interface TodoRepositoryGetParams {
   page?: number;
@@ -37,9 +37,23 @@ async function createByContent(content: string): Promise<Todo> {
   return createdTodo;
 }
 
+async function toggleDone(todoId: string): Promise<Todo> {
+  const ALL_TODOS = read();
+  const todoToUpdate = ALL_TODOS.find((todo) => todo.id === todoId);
+
+  if (!todoToUpdate) throw new Error(`Todo with id "${todoId}" not found!`);
+
+  const updatedTodo = update(todoId, {
+    done: !todoToUpdate.done,
+  });
+
+  return updatedTodo;
+}
+
 export const todoRepository = {
   get,
   createByContent,
+  toggleDone,
 };
 
 // Model/Schema
