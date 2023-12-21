@@ -7,6 +7,7 @@ const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
 interface HomeTodo {
   id: string;
   content: string;
+  done: boolean;
 }
 
 export default function Page() {
@@ -105,10 +106,34 @@ export default function Page() {
             {homeTodos.map((todo) => (
               <tr key={todo.id}>
                 <td>
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    onChange={() =>
+                      todoController.toggleDone({
+                        id: todo.id,
+                        updateTodoOnScreen() {
+                          setTodos((currentTodos) => {
+                            return currentTodos.map((currentTodo) => {
+                              if (currentTodo.id === todo.id) {
+                                return {
+                                  ...currentTodo,
+                                  done: !currentTodo.done,
+                                };
+                              }
+
+                              return currentTodo;
+                            });
+                          });
+                        },
+                        onError() {
+                          alert("Falha ao atualizar a TODO :(");
+                        },
+                      })
+                    }
+                  />
                 </td>
                 <td>{todo.id.substring(0, 4)}</td>
-                <td>{todo.content}</td>
+                <td>{!todo.done ? todo.content : <s>{todo.content}</s>}</td>
                 <td align="right">
                   <button data-type="delete">Apagar</button>
                 </td>
