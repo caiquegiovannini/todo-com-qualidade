@@ -118,7 +118,7 @@ async function deleteById(req: NextApiRequest, res: NextApiResponse) {
     });
   } catch (err) {
     if (err instanceof HttpNotFoundError) {
-      res.status(err.status).json({
+      return res.status(err.status).json({
         error: {
           message: err.message,
         },
