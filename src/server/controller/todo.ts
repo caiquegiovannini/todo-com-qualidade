@@ -91,8 +91,28 @@ async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+async function deleteById(req: NextApiRequest, res: NextApiResponse) {
+  const todoId = req.query.id as string;
+
+  try {
+    await todoRepository.deleteById(todoId);
+    res.status(200).json({
+      debug: {
+        id: todoId,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      error: {
+        message: `Failed to delete resource with id ${todoId}`,
+      },
+    });
+  }
+}
+
 export const todoController = {
   get,
   create,
   toggleDone,
+  deleteById,
 };

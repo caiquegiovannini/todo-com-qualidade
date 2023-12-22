@@ -1,4 +1,9 @@
-import { read, create, update } from "@db-crud-todo";
+import {
+  read,
+  create,
+  update,
+  deleteById as dbDeleteById,
+} from "@db-crud-todo";
 
 interface TodoRepositoryGetParams {
   page?: number;
@@ -50,10 +55,15 @@ async function toggleDone(todoId: string): Promise<Todo> {
   return updatedTodo;
 }
 
+async function deleteById(todoId: string) {
+  await dbDeleteById(todoId);
+}
+
 export const todoRepository = {
   get,
   createByContent,
   toggleDone,
+  deleteById,
 };
 
 // Model/Schema
