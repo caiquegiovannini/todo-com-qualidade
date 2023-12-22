@@ -5,10 +5,10 @@ export default function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  //   if (request.method === "PUT") {
-  todoController.deleteById(request, response);
-  // return;
-  //   }
+  if (request.method === "DELETE") {
+    todoController.deleteById(request, response);
+    return;
+  }
 
-  //   response.status(405).json({ error: { message: "Method allowed" } });
+  response.status(405).json({ error: { message: "Method allowed" } });
 }
