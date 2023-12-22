@@ -111,11 +111,7 @@ async function deleteById(req: NextApiRequest, res: NextApiResponse) {
   try {
     const todoId = parsedQuery.data.id;
     await todoRepository.deleteById(todoId);
-    res.status(200).json({
-      debug: {
-        id: todoId,
-      },
-    });
+    res.status(204).end();
   } catch (err) {
     if (err instanceof HttpNotFoundError) {
       return res.status(err.status).json({
