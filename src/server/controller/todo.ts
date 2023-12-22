@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z as schema } from "zod";
 import { todoRepository } from "@server/repository/todo";
+import { HttpNotFoundError } from "@server/infra/errors";
 
 async function get(req: NextApiRequest, res: NextApiResponse) {
   const query = req.query;
@@ -102,11 +103,13 @@ async function deleteById(req: NextApiRequest, res: NextApiResponse) {
       },
     });
   } catch (err) {
-    res.status(400).json({
-      error: {
-        message: `Failed to delete resource with id ${todoId}`,
-      },
-    });
+    if (err instanceof HttpNotFoundError) {
+      res.status(err.status).json({
+        error: {
+          message: err.message,
+        },
+      });
+    }
   }
 }
 
