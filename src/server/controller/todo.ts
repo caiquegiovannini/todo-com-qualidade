@@ -93,9 +93,23 @@ async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function deleteById(req: NextApiRequest, res: NextApiResponse) {
-  const todoId = req.query.id as string;
+  const QuerySchema = schema.object({
+    id: schema.string().uuid().min(1),
+  });
+  // Fail Fast
+  const parsedQuery = QuerySchema.safeParse(req.query);
+
+  if (!parsedQuery.success) {
+    res.status(400).json({
+      error: {
+        message: "You must to provid a valid id",
+      },
+    });
+    return;
+  }
 
   try {
+    const todoId = parsedQuery.data.id;
     await todoRepository.deleteById(todoId);
     res.status(200).json({
       debug: {
@@ -110,6 +124,12 @@ async function deleteById(req: NextApiRequest, res: NextApiResponse) {
         },
       });
     }
+
+    res.status(500).json({
+      error: {
+        message: "Internal server error",
+      },
+    });
   }
 }
 
