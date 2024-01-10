@@ -11,6 +11,8 @@
     "start": "next start",
     "lint": "eslint './**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "npm run lint -- --fix",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -31,7 +33,8 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "nodemon": "^3.0.1",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.7",
+    "start-server-and-test": "^2.0.3"
   },
   "dependencies": {
     "next": "^13.4.19",
