@@ -30,19 +30,28 @@ async function get({
   page,
   limit,
 }: TodoRepositoryGetParams = {}): Promise<TodoRepositoryGetOutput> {
-  const { error, data, count } = await supabase.from("todos").select("*", {
-    count: "exact",
-  });
+  const currentPage = page || 1;
+  const currentLimit = limit || 2;
+  const startIndex = (currentPage - 1) * currentLimit;
+  const endIndex = currentPage * currentLimit - 1;
+
+  const { error, data, count } = await supabase
+    .from("todos")
+    .select("*", {
+      count: "exact",
+    })
+    .range(startIndex, endIndex);
 
   if (error) throw new Error("Failed to fetch data");
 
   const todos = data as Todo[];
   const total = count || todos.length;
+  const totalPages = Math.ceil(total / currentLimit);
 
   return {
     todos,
     total,
-    pages: 1,
+    pages: totalPages,
   };
 
   // const currentPage = page || 1;
