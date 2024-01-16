@@ -5,6 +5,7 @@ import {
   deleteById as dbDeleteById,
 } from "@db-crud-todo";
 import { HttpNotFoundError } from "@server/infra/errors";
+import { Todo, TodoSchema } from "@server/schema/todo";
 
 // Supabase
 // ==========
@@ -44,7 +45,14 @@ async function get({
 
   if (error) throw new Error("Failed to fetch data");
 
-  const todos = data as Todo[];
+  const parsedData = TodoSchema.array().safeParse(data);
+
+  if (!parsedData.success) {
+    // throw parsedData.error;
+    throw new Error("Failed to parse TODO from database");
+  }
+
+  const todos = parsedData.data;
   const total = count || todos.length;
   const totalPages = Math.ceil(total / currentLimit);
 
@@ -105,11 +113,3 @@ export const todoRepository = {
   toggleDone,
   deleteById,
 };
-
-// Model/Schema
-interface Todo {
-  id: string;
-  content: string;
-  date: string;
-  done: boolean;
-}
