@@ -109,6 +109,7 @@ export default function Page() {
                 <td>
                   <input
                     type="checkbox"
+                    checked={todo.done}
                     onChange={() =>
                       todoController.toggleDone({
                         id: todo.id,
