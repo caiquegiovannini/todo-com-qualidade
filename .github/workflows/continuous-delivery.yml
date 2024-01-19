@@ -2,8 +2,8 @@ name: "[CD] Continuous Delivery"
 
 # Sempre que tiver um commit ou PR aberto
 on:
-  pull_request:
-    types: [opened, synchronize]
+  # pull_request:
+  #   types: [opened, synchronize]
   push: 
     branches: [ main ]
 
