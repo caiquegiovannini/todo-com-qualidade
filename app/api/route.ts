@@ -1,3 +1,11 @@
+export async function GET(request: Request) {
+  return Response.json({ message: "Ola mundo!!" });
+  return new Response(JSON.stringify({ message: "Ola mundo!" }), {
+    status: 200,
+  });
+}
+
+/*
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,3 +14,4 @@ export default async function handler(
 ) {
   response.status(200).json({ message: "DEU BOA!" });
 }
+*/
